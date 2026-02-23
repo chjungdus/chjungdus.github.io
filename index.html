@@ -2,260 +2,314 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JUMA – Webdesign für Restaurants & Cafés</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>JUMA – Webdesign für Restaurants &amp; Cafés</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script>
+  // Email gebaut per JS damit Cloudflare es nicht verschlüsselt
+  var MAIL = ['mateo','.sdlm','@gmail','.com'].join('');
+
   window.showPage = function(pageId) {
-    document.querySelectorAll('.page').forEach(function(p) { p.style.display = 'none'; });
+    document.querySelectorAll('.page').forEach(function(p){ p.style.display='none'; });
     var el = document.getElementById(pageId);
-    if (el) el.style.display = 'block';
-    window.scrollTo(0, 0);
-    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(function(a) {
-      a.classList.toggle('nav-active', a.getAttribute('data-page') === pageId);
+    if(el) el.style.display='block';
+    window.scrollTo(0,0);
+    document.querySelectorAll('.nav-links a,.mobile-menu a').forEach(function(a){
+      a.classList.toggle('nav-active', a.getAttribute('data-page')===pageId);
     });
-    if (document.getElementById('mobileMenu').classList.contains('open')) {
-      window.toggleMenu();
-    }
+    if(document.getElementById('mobileMenu').classList.contains('open')) window.toggleMenu();
   };
-  window.openModal = function() {
+  window.openModal = function(){
     document.getElementById('contactModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow='hidden';
   };
-  window.closeModal = function() {
+  window.closeModal = function(){
     document.getElementById('contactModal').classList.remove('open');
-    document.body.style.overflow = '';
+    document.body.style.overflow='';
   };
-  window.toggleMenu = function() {
-    var menu = document.getElementById('mobileMenu');
-    var burger = document.getElementById('hamburger');
-    menu.classList.toggle('open');
-    burger.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  window.toggleMenu = function(){
+    var m=document.getElementById('mobileMenu'), b=document.getElementById('hamburger');
+    m.classList.toggle('open'); b.classList.toggle('open');
+    document.body.style.overflow=m.classList.contains('open')?'hidden':'';
   };
-  window.submitForm = function(e) {
+  window.submitForm = function(e){
     e.preventDefault();
-    var btn = document.querySelector('.form-submit');
-    btn.textContent = 'Wird gesendet...';
-    btn.disabled = true;
-    setTimeout(function() {
-      document.getElementById('contactForm').style.display = 'none';
-      document.getElementById('formSuccess').classList.add('show');
-    }, 1000);
+    var name  = document.getElementById('f-name').value;
+    var email = document.getElementById('f-email').value;
+    var tel   = document.getElementById('f-tel').value;
+    var paket = document.getElementById('f-paket').value;
+    var msg   = document.getElementById('f-msg').value;
+    var body  = 'Name: '+name+'\nE-Mail: '+email+'\nTelefon: '+tel+'\nPaket: '+paket+'\n\nNachricht:\n'+msg;
+    window.location.href = 'mailto:'+MAIL+'?subject=Anfrage%20Website%20JUMA&body='+encodeURIComponent(body);
   };
-  window.acceptCookies = function() {
-    document.getElementById('cookieBanner').style.display = 'none';
-    try { localStorage.setItem('juma_cookies', '1'); } catch(e) {}
+  window.acceptCookies = function(){
+    document.getElementById('cookieBanner').style.display='none';
+    try{ localStorage.setItem('juma_cookies','1'); }catch(e){}
   };
-  window.declineCookies = function() {
-    document.getElementById('cookieBanner').style.display = 'none';
-    try { localStorage.setItem('juma_cookies', '0'); } catch(e) {}
+  window.declineCookies = function(){
+    document.getElementById('cookieBanner').style.display='none';
+    try{ localStorage.setItem('juma_cookies','0'); }catch(e){}
   };
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function(){
+    // Inject email links via JS
+    document.querySelectorAll('[data-mail]').forEach(function(el){
+      el.href='mailto:'+MAIL+(el.getAttribute('data-subject')||'');
+      if(el.getAttribute('data-show')) el.textContent=MAIL;
+    });
     showPage('start');
-    try {
-      if (!localStorage.getItem('juma_cookies')) {
-        document.getElementById('cookieBanner').style.display = 'flex';
-      }
-    } catch(e) {
-      document.getElementById('cookieBanner').style.display = 'flex';
+    try{
+      if(!localStorage.getItem('juma_cookies'))
+        document.getElementById('cookieBanner').style.display='flex';
+    }catch(e){
+      document.getElementById('cookieBanner').style.display='flex';
     }
-    document.getElementById('contactModal').addEventListener('click', function(e) {
-      if (e.target === this) window.closeModal();
+    document.getElementById('contactModal').addEventListener('click',function(e){
+      if(e.target===this) window.closeModal();
     });
-    window.addEventListener('scroll', function() {
-      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    window.addEventListener('scroll',function(){
+      document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
     });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') window.closeModal();
+    document.addEventListener('keydown',function(e){
+      if(e.key==='Escape') window.closeModal();
     });
   });
 </script>
 <style>
-  :root { --black:#0f0f0f; --white:#fafaf7; --gold:#c9a84c; --gold-light:#e8c97a; --gray:#888; --dark-gray:#1e1e1e; --card-bg:#161616; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; }
-  body { font-family:'DM Sans',sans-serif; background:var(--black); color:var(--white); overflow-x:hidden; }
-  .page { display:none; min-height:100vh; }
+  :root{ --black:#0f0f0f; --white:#fafaf7; --gold:#c9a84c; --gold-light:#e8c97a; --gray:#888; --dark-gray:#1e1e1e; --card-bg:#161616; }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'DM Sans',sans-serif; background:var(--black); color:var(--white); overflow-x:hidden; max-width:100vw; }
+  .page{ display:none; min-height:100vh; }
 
   /* NAV */
-  nav { position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; justify-content:space-between; align-items:center; padding:20px 60px; background:rgba(15,15,15,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(201,168,76,0.15); transition:padding 0.3s; }
-  nav.scrolled { padding:13px 60px; }
-  .nav-logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; letter-spacing:0.08em; color:var(--gold); cursor:pointer; }
-  .nav-links { display:flex; gap:30px; list-style:none; align-items:center; }
-  .nav-links a { color:rgba(250,250,247,0.65); text-decoration:none; font-size:0.85rem; font-weight:500; cursor:pointer; transition:color 0.2s; padding-bottom:2px; border-bottom:1px solid transparent; }
-  .nav-links a:hover,.nav-links a.nav-active { color:var(--gold); border-bottom-color:var(--gold); }
-  .nav-cta { background:var(--gold)!important; color:var(--black)!important; padding:9px 22px!important; border-radius:2px; font-weight:700!important; border-bottom:none!important; }
-  .nav-cta:hover { background:var(--gold-light)!important; }
-  .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; }
-  .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; transition:all 0.3s; }
-  .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity:0; }
-  .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+  nav{ position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; justify-content:space-between; align-items:center; padding:20px 60px; background:rgba(15,15,15,0.95); backdrop-filter:blur(12px); border-bottom:1px solid rgba(201,168,76,0.15); transition:padding 0.3s; }
+  nav.scrolled{ padding:13px 60px; }
+  .nav-logo{ font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900; letter-spacing:0.08em; color:var(--gold); cursor:pointer; }
+  .nav-links{ display:flex; gap:28px; list-style:none; align-items:center; }
+  .nav-links a{ color:rgba(250,250,247,0.65); text-decoration:none; font-size:0.82rem; font-weight:500; cursor:pointer; transition:color 0.2s; padding-bottom:2px; border-bottom:1px solid transparent; white-space:nowrap; }
+  .nav-links a:hover,.nav-links a.nav-active{ color:var(--gold); border-bottom-color:var(--gold); }
+  .nav-cta{ background:var(--gold)!important; color:var(--black)!important; padding:9px 20px!important; border-radius:2px; font-weight:700!important; border-bottom:none!important; }
+  .nav-cta:hover{ background:var(--gold-light)!important; }
+  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; flex-shrink:0; }
+  .hamburger span{ display:block; width:24px; height:2px; background:var(--white); border-radius:2px; transition:all 0.3s; }
+  .hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
 
   /* MOBILE MENU */
-  .mobile-menu { display:none; position:fixed; inset:0; background:rgba(10,10,10,0.98); z-index:999; flex-direction:column; align-items:center; justify-content:center; gap:28px; }
-  .mobile-menu.open { display:flex; }
-  .mobile-menu a { color:var(--white); text-decoration:none; font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; cursor:pointer; transition:color 0.2s; }
-  .mobile-menu a:hover { color:var(--gold); }
-  .mobile-menu .mobile-cta { background:var(--gold); color:var(--black)!important; padding:14px 40px; border-radius:2px; font-family:'DM Sans',sans-serif!important; font-size:1rem!important; font-weight:700!important; }
-  .mobile-close { position:absolute; top:24px; right:24px; background:none; border:none; color:var(--white); font-size:1.8rem; cursor:pointer; }
+  .mobile-menu{ display:none; position:fixed; inset:0; background:rgba(10,10,10,0.98); z-index:999; flex-direction:column; align-items:center; justify-content:center; gap:28px; }
+  .mobile-menu.open{ display:flex; }
+  .mobile-menu a{ color:var(--white); text-decoration:none; font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; cursor:pointer; transition:color 0.2s; }
+  .mobile-menu a:hover{ color:var(--gold); }
+  .mobile-menu .mobile-cta{ background:var(--gold); color:var(--black)!important; padding:14px 40px; border-radius:2px; font-family:'DM Sans',sans-serif!important; font-size:1rem!important; font-weight:700!important; }
+  .mobile-close{ position:absolute; top:24px; right:24px; background:none; border:none; color:var(--white); font-size:1.8rem; cursor:pointer; }
 
   /* MODAL */
-  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2000; align-items:center; justify-content:center; padding:20px; }
-  .modal-overlay.open { display:flex; }
-  .modal { background:var(--dark-gray); border:1px solid rgba(201,168,76,0.2); border-radius:10px; padding:44px; max-width:520px; width:100%; position:relative; animation:fadeUp 0.3s ease; }
-  .modal-close { position:absolute; top:16px; right:20px; background:none; border:none; color:var(--gray); font-size:1.4rem; cursor:pointer; }
-  .modal-close:hover { color:var(--white); }
-  .modal h3 { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; margin-bottom:8px; }
-  .modal-sub { color:rgba(250,250,247,0.5); font-size:0.9rem; margin-bottom:28px; line-height:1.6; }
-  .contact-options { display:flex; flex-direction:column; gap:12px; }
-  .contact-option { display:flex; align-items:center; gap:16px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:16px 20px; text-decoration:none; color:var(--white); transition:all 0.2s; cursor:pointer; }
-  .contact-option:hover { border-color:var(--gold); background:rgba(201,168,76,0.06); }
-  .contact-option-icon { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
-  .icon-wa { background:rgba(37,211,102,0.15); }
-  .icon-mail { background:rgba(201,168,76,0.15); }
-  .icon-form { background:rgba(99,102,241,0.15); }
-  .contact-option-text strong { display:block; font-size:0.92rem; margin-bottom:2px; }
-  .contact-option-text span { font-size:0.78rem; color:var(--gray); }
+  .modal-overlay{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:2000; align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.open{ display:flex; }
+  .modal{ background:var(--dark-gray); border:1px solid rgba(201,168,76,0.2); border-radius:10px; padding:44px; max-width:480px; width:100%; position:relative; animation:fadeUp 0.3s ease; }
+  .modal-close{ position:absolute; top:16px; right:20px; background:none; border:none; color:var(--gray); font-size:1.4rem; cursor:pointer; }
+  .modal-close:hover{ color:var(--white); }
+  .modal h3{ font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; margin-bottom:8px; }
+  .modal-sub{ color:rgba(250,250,247,0.5); font-size:0.9rem; margin-bottom:28px; line-height:1.6; }
+  .contact-options{ display:flex; flex-direction:column; gap:12px; }
+  .contact-option{ display:flex; align-items:center; gap:16px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:16px 20px; text-decoration:none; color:var(--white); transition:all 0.2s; cursor:pointer; }
+  .contact-option:hover{ border-color:var(--gold); background:rgba(201,168,76,0.06); }
+  .contact-option-icon{ width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+  .icon-wa{ background:rgba(37,211,102,0.15); }
+  .icon-form{ background:rgba(99,102,241,0.15); }
+  .contact-option-text strong{ display:block; font-size:0.92rem; margin-bottom:2px; }
+  .contact-option-text span{ font-size:0.78rem; color:var(--gray); }
 
   /* COOKIE */
-  #cookieBanner { display:none; position:fixed; bottom:0; left:0; right:0; z-index:1500; background:#1a1a1a; border-top:1px solid rgba(201,168,76,0.2); padding:20px 40px; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; }
-  .cookie-text { font-size:0.85rem; color:rgba(250,250,247,0.65); max-width:700px; line-height:1.6; }
-  .cookie-text a { color:var(--gold); cursor:pointer; text-decoration:underline; }
-  .cookie-btns { display:flex; gap:10px; flex-shrink:0; }
-  .cookie-accept { background:var(--gold); color:var(--black); border:none; padding:10px 22px; border-radius:4px; font-size:0.85rem; font-weight:700; cursor:pointer; }
-  .cookie-accept:hover { background:var(--gold-light); }
-  .cookie-decline { background:transparent; color:rgba(250,250,247,0.5); border:1px solid rgba(255,255,255,0.15); padding:10px 18px; border-radius:4px; font-size:0.85rem; cursor:pointer; }
-  .cookie-decline:hover { color:var(--white); border-color:rgba(255,255,255,0.3); }
+  #cookieBanner{ display:none; position:fixed; bottom:0; left:0; right:0; z-index:1500; background:#1a1a1a; border-top:1px solid rgba(201,168,76,0.2); padding:20px 40px; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; }
+  .cookie-text{ font-size:0.85rem; color:rgba(250,250,247,0.65); max-width:700px; line-height:1.6; }
+  .cookie-text a{ color:var(--gold); cursor:pointer; text-decoration:underline; }
+  .cookie-btns{ display:flex; gap:10px; flex-shrink:0; }
+  .cookie-accept{ background:var(--gold); color:var(--black); border:none; padding:10px 22px; border-radius:4px; font-size:0.85rem; font-weight:700; cursor:pointer; }
+  .cookie-accept:hover{ background:var(--gold-light); }
+  .cookie-decline{ background:transparent; color:rgba(250,250,247,0.5); border:1px solid rgba(255,255,255,0.15); padding:10px 18px; border-radius:4px; font-size:0.85rem; cursor:pointer; }
+  .cookie-decline:hover{ color:var(--white); border-color:rgba(255,255,255,0.3); }
 
   /* COMMON */
-  .section-tag { font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
-  .section-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:700; line-height:1.2; margin-bottom:20px; }
-  .btn-primary { background:var(--gold); color:var(--black); padding:18px 44px; font-weight:700; font-size:0.95rem; border-radius:2px; border:none; cursor:pointer; transition:background 0.2s,transform 0.2s; display:inline-block; }
-  .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
-  .btn-secondary { border:1px solid rgba(250,250,247,0.25); color:var(--white); padding:18px 44px; font-size:0.95rem; border-radius:2px; transition:all 0.2s; display:inline-block; background:none; cursor:pointer; }
-  .btn-secondary:hover { border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
+  .section-tag{ font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+  .section-title{ font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:700; line-height:1.2; margin-bottom:20px; }
+  .btn-primary{ background:var(--gold); color:var(--black); padding:18px 44px; font-weight:700; font-size:0.95rem; border-radius:2px; border:none; cursor:pointer; transition:background 0.2s,transform 0.2s; display:inline-block; }
+  .btn-primary:hover{ background:var(--gold-light); transform:translateY(-2px); }
+  .btn-secondary{ border:1px solid rgba(250,250,247,0.25); color:var(--white); padding:18px 44px; font-size:0.95rem; border-radius:2px; transition:all 0.2s; display:inline-block; background:none; cursor:pointer; }
+  .btn-secondary:hover{ border-color:var(--gold); color:var(--gold); transform:translateY(-2px); }
 
   /* FOOTER */
-  footer { background:#0a0a0a; border-top:1px solid rgba(255,255,255,0.05); padding:32px 60px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
-  .footer-logo { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:900; color:var(--gold); cursor:pointer; }
-  .footer-copy { color:rgba(250,250,247,0.25); font-size:0.8rem; }
-  .footer-links { display:flex; gap:24px; }
-  .footer-links a { color:rgba(250,250,247,0.35); text-decoration:none; font-size:0.8rem; cursor:pointer; transition:color 0.2s; }
-  .footer-links a:hover { color:var(--gold); }
+  footer{ background:#0a0a0a; border-top:1px solid rgba(255,255,255,0.05); padding:32px 60px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .footer-logo{ font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:900; color:var(--gold); cursor:pointer; }
+  .footer-copy{ color:rgba(250,250,247,0.25); font-size:0.8rem; }
+  .footer-links{ display:flex; gap:24px; }
+  .footer-links a{ color:rgba(250,250,247,0.35); text-decoration:none; font-size:0.8rem; cursor:pointer; transition:color 0.2s; }
+  .footer-links a:hover{ color:var(--gold); }
 
   /* WA */
-  .wa-float { position:fixed; bottom:28px; right:28px; z-index:500; width:56px; height:56px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.6rem; box-shadow:0 4px 20px rgba(37,211,102,0.4); transition:transform 0.2s; }
-  .wa-float:hover { transform:scale(1.1); }
-  .wa-tooltip { position:absolute; right:68px; top:50%; transform:translateY(-50%); background:#1e1e1e; color:var(--white); font-size:0.78rem; padding:6px 12px; border-radius:4px; white-space:nowrap; opacity:0; transition:opacity 0.2s; pointer-events:none; border:1px solid rgba(255,255,255,0.08); }
-  .wa-float:hover .wa-tooltip { opacity:1; }
+  .wa-float{ position:fixed; bottom:28px; right:28px; z-index:500; width:56px; height:56px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:1.6rem; box-shadow:0 4px 20px rgba(37,211,102,0.4); transition:transform 0.2s; }
+  .wa-float:hover{ transform:scale(1.1); }
+  .wa-tooltip{ position:absolute; right:68px; top:50%; transform:translateY(-50%); background:#1e1e1e; color:var(--white); font-size:0.78rem; padding:6px 12px; border-radius:4px; white-space:nowrap; opacity:0; transition:opacity 0.2s; pointer-events:none; border:1px solid rgba(255,255,255,0.08); }
+  .wa-float:hover .wa-tooltip{ opacity:1; }
 
-  /* HERO */
-  .hero-wrap { min-height:100vh; display:flex; align-items:center; padding:130px 60px 100px; position:relative; overflow:hidden; }
-  .hero-bg { position:absolute; inset:0; background:radial-gradient(ellipse 65% 65% at 80% 45%,rgba(201,168,76,0.1) 0%,transparent 70%),radial-gradient(ellipse 45% 45% at 15% 85%,rgba(201,168,76,0.06) 0%,transparent 60%); }
-  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.05) 1px,transparent 1px); background-size:60px 60px; }
-  .hero-content { position:relative; max-width:800px; }
-  .hero-tag { display:inline-block; border:1px solid var(--gold); color:var(--gold); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; padding:7px 18px; border-radius:2px; margin-bottom:36px; }
-  .hero-title { font-family:'Playfair Display',serif; font-size:clamp(3.5rem,7vw,6.5rem); font-weight:900; line-height:1.02; margin-bottom:32px; }
-  .hero-title em { font-style:italic; color:var(--gold); }
-  .hero-text { font-size:1.1rem; line-height:1.85; color:rgba(250,250,247,0.65); max-width:580px; margin-bottom:52px; }
-  .hero-buttons { display:flex; gap:16px; flex-wrap:wrap; }
-  .hero-stats { position:absolute; right:60px; bottom:80px; display:flex; gap:56px; }
-  .stat-number { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:700; color:var(--gold); line-height:1; }
-  .stat-label { font-size:0.75rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.08em; margin-top:6px; }
+  /* ── HERO / START ── */
+  .hero-wrap{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:120px 60px 80px; position:relative; overflow:hidden; }
+  .hero-bg{ position:absolute; inset:0; background:radial-gradient(ellipse 65% 65% at 80% 45%,rgba(201,168,76,0.1) 0%,transparent 70%),radial-gradient(ellipse 45% 45% at 15% 85%,rgba(201,168,76,0.06) 0%,transparent 60%); pointer-events:none; }
+  .hero-grid{ position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.05) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; }
+  .hero-content{ position:relative; max-width:760px; }
+  .hero-tag{ display:inline-block; border:1px solid var(--gold); color:var(--gold); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; padding:7px 18px; border-radius:2px; margin-bottom:32px; }
+  .hero-title{ font-family:'Playfair Display',serif; font-size:clamp(3rem,6.5vw,6rem); font-weight:900; line-height:1.04; margin-bottom:28px; }
+  .hero-title em{ font-style:italic; color:var(--gold); }
+  .hero-text{ font-size:1.05rem; line-height:1.85; color:rgba(250,250,247,0.65); max-width:560px; margin-bottom:44px; }
+  .hero-buttons{ display:flex; gap:16px; flex-wrap:wrap; margin-bottom:64px; }
 
-  /* ÜBER UNS */
-  .ueber-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto; }
-  .ueber-text p { color:rgba(250,250,247,0.6); line-height:1.85; font-size:1rem; margin-bottom:16px; }
-  .ueber-text p strong { color:var(--white); }
-  .ueber-stats { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  .ueber-stat { background:var(--card-bg); border:1px solid rgba(201,168,76,0.15); border-radius:4px; padding:32px; text-align:center; }
-  .ueber-stat-num { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900; color:var(--gold); line-height:1; }
-  .ueber-stat-label { color:rgba(250,250,247,0.5); font-size:0.8rem; margin-top:6px; line-height:1.4; }
+  /* TRUST STRIP */
+  .hero-trust{ position:relative; display:flex; gap:0; border:1px solid rgba(201,168,76,0.15); border-radius:4px; overflow:hidden; max-width:700px; }
+  .trust-item{ flex:1; padding:24px 20px; text-align:center; border-right:1px solid rgba(201,168,76,0.1); }
+  .trust-item:last-child{ border-right:none; }
+  .trust-num{ font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--gold); line-height:1; }
+  .trust-label{ font-size:0.72rem; color:rgba(250,250,247,0.45); text-transform:uppercase; letter-spacing:0.08em; margin-top:6px; line-height:1.4; }
+
+  /* HOW IT WORKS */
+  .how-section{ padding:80px 60px; background:var(--dark-gray); }
+  .how-inner{ max-width:1100px; margin:0 auto; }
+  .how-steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:48px; position:relative; }
+  .how-steps::before{ content:''; position:absolute; top:28px; left:12.5%; right:12.5%; height:1px; background:rgba(201,168,76,0.2); }
+  .how-step{ text-align:center; padding:0 20px; }
+  .step-num{ width:56px; height:56px; border-radius:50%; background:var(--black); border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--gold); margin:0 auto 20px; position:relative; z-index:1; }
+  .step-title{ font-weight:600; font-size:0.95rem; margin-bottom:8px; }
+  .step-desc{ font-size:0.82rem; color:rgba(250,250,247,0.45); line-height:1.6; }
+
+  /* WHY */
+  .why-section{ padding:80px 60px; }
+  .why-inner{ max-width:1100px; margin:0 auto; }
+  .why-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:48px; }
+  .why-card{ background:var(--card-bg); border:1px solid rgba(255,255,255,0.05); border-radius:4px; padding:36px 28px; transition:border-color 0.3s; }
+  .why-card:hover{ border-color:rgba(201,168,76,0.2); }
+  .why-icon{ font-size:1.6rem; margin-bottom:16px; }
+  .why-title{ font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:10px; }
+  .why-desc{ font-size:0.85rem; color:rgba(250,250,247,0.5); line-height:1.7; }
+
+  /* ÜBER */
+  .ueber-grid{ display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto; }
+  .ueber-text p{ color:rgba(250,250,247,0.6); line-height:1.85; font-size:1rem; margin-bottom:16px; }
+  .ueber-text p strong{ color:var(--white); }
+  .ueber-stats{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .ueber-stat{ background:var(--card-bg); border:1px solid rgba(201,168,76,0.15); border-radius:4px; padding:32px; text-align:center; }
+  .ueber-stat-num{ font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900; color:var(--gold); line-height:1; }
+  .ueber-stat-label{ color:rgba(250,250,247,0.5); font-size:0.8rem; margin-top:6px; line-height:1.4; }
 
   /* SERVICES */
-  .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); margin-top:60px; }
-  .service-card { background:var(--black); padding:44px 36px; transition:background 0.3s; position:relative; overflow:hidden; }
-  .service-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s; transform-origin:left; }
-  .service-card:hover { background:var(--dark-gray); }
-  .service-card:hover::after { transform:scaleX(1); }
-  .service-icon { font-size:1.8rem; margin-bottom:20px; display:block; }
-  .service-title { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; margin-bottom:12px; }
-  .service-desc { font-size:0.88rem; color:rgba(250,250,247,0.5); line-height:1.7; }
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); margin-top:60px; }
+  .service-card{ background:var(--black); padding:44px 36px; transition:background 0.3s; position:relative; overflow:hidden; }
+  .service-card::after{ content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--gold); transform:scaleX(0); transition:transform 0.3s; transform-origin:left; }
+  .service-card:hover{ background:var(--dark-gray); }
+  .service-card:hover::after{ transform:scaleX(1); }
+  .service-icon{ font-size:1.8rem; margin-bottom:20px; display:block; }
+  .service-title{ font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; margin-bottom:12px; }
+  .service-desc{ font-size:0.88rem; color:rgba(250,250,247,0.5); line-height:1.7; }
 
   /* PORTFOLIO */
-  .portfolio-card { background:var(--card-bg); border:1px solid rgba(255,255,255,0.07); border-radius:4px; overflow:hidden; display:grid; grid-template-columns:1fr 1fr; min-height:340px; margin-top:60px; }
-  .portfolio-image-placeholder { background:linear-gradient(135deg,#1a1a1a 0%,#222 100%); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.15); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; border-right:1px solid rgba(255,255,255,0.07); min-height:280px; flex-direction:column; gap:12px; }
-  .portfolio-image-placeholder span { font-size:2.5rem; opacity:0.3; }
-  .portfolio-info { padding:48px; display:flex; flex-direction:column; justify-content:center; }
-  .portfolio-tag { font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
-  .portfolio-name { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; margin-bottom:12px; }
-  .portfolio-desc { color:rgba(250,250,247,0.55); font-size:0.9rem; line-height:1.7; margin-bottom:28px; }
-  .portfolio-link { color:var(--gold); text-decoration:none; font-size:0.88rem; font-weight:500; display:inline-flex; align-items:center; gap:8px; transition:gap 0.2s; }
-  .portfolio-link:hover { gap:14px; }
+  .portfolio-card{ background:var(--card-bg); border:1px solid rgba(255,255,255,0.07); border-radius:4px; overflow:hidden; display:grid; grid-template-columns:1fr 1fr; min-height:340px; margin-top:60px; }
+  .portfolio-image-placeholder{ background:linear-gradient(135deg,#1a1a1a 0%,#222 100%); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.15); font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; border-right:1px solid rgba(255,255,255,0.07); min-height:280px; flex-direction:column; gap:12px; }
+  .portfolio-image-placeholder span{ font-size:2.5rem; opacity:0.3; }
+  .portfolio-info{ padding:48px; display:flex; flex-direction:column; justify-content:center; }
+  .portfolio-tag-small{ font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
+  .portfolio-name{ font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; margin-bottom:12px; }
+  .portfolio-desc{ color:rgba(250,250,247,0.55); font-size:0.9rem; line-height:1.7; margin-bottom:28px; }
+  .portfolio-link{ color:var(--gold); text-decoration:none; font-size:0.88rem; font-weight:500; display:inline-flex; align-items:center; gap:8px; transition:gap 0.2s; }
+  .portfolio-link:hover{ gap:14px; }
 
   /* PRICING */
-  .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:start; margin-top:60px; }
-  .pricing-card { border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:44px 36px; position:relative; transition:border-color 0.3s; }
-  .pricing-card:hover { border-color:rgba(201,168,76,0.3); }
-  .pricing-card.featured { border-color:var(--gold); background:rgba(201,168,76,0.04); }
-  .pricing-card.featured::before { content:'Empfohlen'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--gold); color:var(--black); font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:4px 16px; border-radius:20px; }
-  .pricing-name { font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray); margin-bottom:16px; }
-  .pricing-price { font-family:'Playfair Display',serif; font-size:3rem; font-weight:700; color:var(--white); line-height:1; margin-bottom:4px; }
-  .pricing-price span { font-family:'DM Sans',sans-serif; font-size:1rem; color:var(--gray); font-weight:300; }
-  .pricing-desc { color:rgba(250,250,247,0.45); font-size:0.85rem; margin-bottom:28px; line-height:1.6; min-height:48px; }
-  .pricing-divider { height:1px; background:rgba(255,255,255,0.07); margin-bottom:28px; }
-  .pricing-features { list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:36px; }
-  .pricing-features li { display:flex; align-items:flex-start; gap:10px; font-size:0.88rem; color:rgba(250,250,247,0.65); line-height:1.4; }
-  .pricing-features li::before { content:'✓'; color:var(--gold); font-weight:700; flex-shrink:0; }
-  .pricing-btn { display:block; text-align:center; padding:14px; font-size:0.88rem; font-weight:600; border-radius:2px; transition:all 0.2s; cursor:pointer; border:none; font-family:'DM Sans',sans-serif; width:100%; }
-  .pricing-btn-outline { border:1px solid rgba(255,255,255,0.2); color:var(--white); background:transparent; }
-  .pricing-btn-outline:hover { border-color:var(--gold); color:var(--gold); }
-  .pricing-btn-fill { background:var(--gold); color:var(--black); }
-  .pricing-btn-fill:hover { background:var(--gold-light); }
+  .pricing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:start; margin-top:60px; }
+  .pricing-card{ border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:44px 36px; position:relative; transition:border-color 0.3s; }
+  .pricing-card:hover{ border-color:rgba(201,168,76,0.3); }
+  .pricing-card.featured{ border-color:var(--gold); background:rgba(201,168,76,0.04); }
+  .pricing-card.featured::before{ content:'Empfohlen'; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--gold); color:var(--black); font-size:0.7rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:4px 16px; border-radius:20px; white-space:nowrap; }
+  .pricing-name{ font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray); margin-bottom:16px; }
+  .pricing-price{ font-family:'Playfair Display',serif; font-size:3rem; font-weight:700; color:var(--white); line-height:1; margin-bottom:4px; }
+  .pricing-price span{ font-family:'DM Sans',sans-serif; font-size:1rem; color:var(--gray); font-weight:300; }
+  .pricing-desc{ color:rgba(250,250,247,0.45); font-size:0.85rem; margin-bottom:28px; line-height:1.6; min-height:48px; }
+  .pricing-divider{ height:1px; background:rgba(255,255,255,0.07); margin-bottom:28px; }
+  .pricing-features{ list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:36px; }
+  .pricing-features li{ display:flex; align-items:flex-start; gap:10px; font-size:0.88rem; color:rgba(250,250,247,0.65); line-height:1.4; }
+  .pricing-features li::before{ content:'✓'; color:var(--gold); font-weight:700; flex-shrink:0; }
+  .pricing-btn{ display:block; text-align:center; padding:14px; font-size:0.88rem; font-weight:600; border-radius:2px; transition:all 0.2s; cursor:pointer; border:none; font-family:'DM Sans',sans-serif; width:100%; }
+  .pricing-btn-outline{ border:1px solid rgba(255,255,255,0.2); color:var(--white); background:transparent; }
+  .pricing-btn-outline:hover{ border-color:var(--gold); color:var(--gold); }
+  .pricing-btn-fill{ background:var(--gold); color:var(--black); }
+  .pricing-btn-fill:hover{ background:var(--gold-light); }
 
   /* KONTAKT */
-  .kontakt-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
-  .kontakt-info p { color:rgba(250,250,247,0.55); line-height:1.8; font-size:0.95rem; margin-bottom:40px; }
-  .contact-detail { display:flex; align-items:center; gap:14px; margin-bottom:20px; font-size:0.9rem; color:rgba(250,250,247,0.6); text-decoration:none; transition:color 0.2s; }
-  .contact-detail:hover { color:var(--gold); }
-  .contact-detail-icon { width:38px; height:38px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
-  .contact-form { display:flex; flex-direction:column; gap:16px; }
-  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  .form-group { display:flex; flex-direction:column; gap:6px; }
-  .form-group label { font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gray); }
-  .form-group input,.form-group textarea,.form-group select { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:var(--white); padding:14px 18px; border-radius:3px; font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; transition:border-color 0.2s; }
-  .form-group input:focus,.form-group textarea:focus,.form-group select:focus { border-color:var(--gold); }
-  .form-group select option { background:#1e1e1e; }
-  .form-group textarea { resize:none; min-height:120px; }
-  .form-submit { background:var(--gold); color:var(--black); border:none; padding:16px 32px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; border-radius:3px; transition:background 0.2s; align-self:flex-start; }
-  .form-submit:hover { background:var(--gold-light); }
-  .form-success { display:none; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); border-radius:4px; padding:20px; text-align:center; color:#86efac; font-size:0.9rem; line-height:1.6; }
-  .form-success.show { display:block; }
+  .kontakt-inner{ max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+  .kontakt-info p{ color:rgba(250,250,247,0.55); line-height:1.8; font-size:0.95rem; margin-bottom:40px; }
+  .contact-detail{ display:flex; align-items:center; gap:14px; margin-bottom:20px; font-size:0.9rem; color:rgba(250,250,247,0.6); text-decoration:none; transition:color 0.2s; }
+  .contact-detail:hover{ color:var(--gold); }
+  .contact-detail-icon{ width:38px; height:38px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+  .contact-form{ display:flex; flex-direction:column; gap:16px; }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .form-group{ display:flex; flex-direction:column; gap:6px; }
+  .form-group label{ font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gray); }
+  .form-group input,.form-group textarea,.form-group select{ background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:var(--white); padding:14px 18px; border-radius:3px; font-family:'DM Sans',sans-serif; font-size:0.9rem; outline:none; transition:border-color 0.2s; width:100%; }
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{ border-color:var(--gold); }
+  .form-group select option{ background:#1e1e1e; }
+  .form-group textarea{ resize:none; min-height:120px; }
+  .form-submit{ background:var(--gold); color:var(--black); border:none; padding:16px 32px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; border-radius:3px; transition:background 0.2s; align-self:flex-start; }
+  .form-submit:hover{ background:var(--gold-light); }
+  .form-note{ font-size:0.78rem; color:rgba(250,250,247,0.35); line-height:1.5; }
 
   /* LEGAL */
-  .legal-inner { max-width:800px; margin:0 auto; }
-  .legal-inner h1 { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:700; margin-bottom:40px; }
-  .legal-inner h2 { font-size:1.05rem; font-weight:600; margin:32px 0 10px; color:var(--gold); }
-  .legal-inner p { color:rgba(250,250,247,0.6); line-height:1.85; font-size:0.95rem; margin-bottom:10px; }
-  .legal-back { display:inline-flex; align-items:center; gap:8px; color:var(--gold); cursor:pointer; font-size:0.85rem; margin-bottom:40px; border:none; background:none; font-family:'DM Sans',sans-serif; }
-  .legal-back:hover { text-decoration:underline; }
+  .legal-inner{ max-width:800px; margin:0 auto; }
+  .legal-inner h1{ font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:700; margin-bottom:40px; }
+  .legal-inner h2{ font-size:1.05rem; font-weight:600; margin:32px 0 10px; color:var(--gold); }
+  .legal-inner p{ color:rgba(250,250,247,0.6); line-height:1.85; font-size:0.95rem; margin-bottom:10px; }
+  .legal-back{ display:inline-flex; align-items:center; gap:8px; color:var(--gold); cursor:pointer; font-size:0.85rem; margin-bottom:40px; border:none; background:none; font-family:'DM Sans',sans-serif; }
+  .legal-back:hover{ text-decoration:underline; }
 
-  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeUp{ from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-  @media (max-width:900px) {
-    nav { padding:16px 24px; }
-    .nav-links { display:none; }
-    .hamburger { display:flex; }
-    .hero-wrap { padding:100px 24px 60px; }
-    .hero-stats { position:static; margin-top:40px; gap:32px; }
-    .ueber-grid,.portfolio-card,.kontakt-inner { grid-template-columns:1fr; gap:40px; }
-    .services-grid,.pricing-grid { grid-template-columns:1fr; }
-    .form-row { grid-template-columns:1fr; }
-    footer { flex-direction:column; align-items:flex-start; padding:28px 24px; }
-    #cookieBanner { padding:16px 20px; }
-    .modal { padding:28px 20px; }
+  /* ══ MOBILE ══ */
+  @media(max-width:900px){
+    nav{ padding:14px 20px; }
+    nav.scrolled{ padding:12px 20px; }
+    .nav-links{ display:none; }
+    .hamburger{ display:flex; }
+
+    .hero-wrap{ padding:90px 20px 60px; }
+    .hero-trust{ flex-direction:column; }
+    .trust-item{ border-right:none; border-bottom:1px solid rgba(201,168,76,0.1); }
+    .trust-item:last-child{ border-bottom:none; }
+
+    .how-section,.why-section{ padding:60px 20px; }
+    .how-steps{ grid-template-columns:1fr 1fr; gap:32px; }
+    .how-steps::before{ display:none; }
+    .why-grid{ grid-template-columns:1fr; }
+
+    #ueber,.portfolio-inner-wrap,.preise-inner,.leistungen-inner-wrap,.kontakt-section{ padding:70px 20px 40px; }
+    .ueber-grid,.portfolio-card,.kontakt-inner{ grid-template-columns:1fr; gap:36px; }
+    .services-grid,.pricing-grid{ grid-template-columns:1fr; }
+    .form-row{ grid-template-columns:1fr; }
+
+    footer{ flex-direction:column; align-items:flex-start; padding:24px 20px; gap:12px; }
+    #cookieBanner{ padding:16px 20px; }
+    .modal{ padding:24px 16px; }
+    .modal h3{ font-size:1.3rem; }
+
+    .portfolio-card{ grid-template-columns:1fr; }
+    .portfolio-image-placeholder{ min-height:200px; }
+    .portfolio-info{ padding:28px; }
+
+    .wa-float{ bottom:20px; right:16px; width:48px; height:48px; font-size:1.3rem; }
+    .wa-tooltip{ display:none; }
+
+    #leistungen section, #portfolio section, #preise section, #kontakt section, #impressum section, #datenschutz section, #agb section, #ueber section{ padding:70px 20px 40px; }
+  }
+  @media(max-width:480px){
+    .hero-title{ font-size:2.6rem; }
+    .btn-primary,.btn-secondary{ padding:16px 28px; font-size:0.9rem; }
+    .hero-buttons{ flex-direction:column; }
+    .hero-buttons .btn-primary,.hero-buttons .btn-secondary{ text-align:center; width:100%; }
   }
 </style>
 </head>
@@ -263,34 +317,27 @@
 
 <!-- COOKIE BANNER -->
 <div id="cookieBanner">
-  <div class="cookie-text">
-    🍪 Diese Website verwendet Cookies für ein optimales Erlebnis. Mehr dazu in unserer
-    <a onclick="showPage('datenschutz')">Datenschutzerklärung</a>.
-  </div>
+  <div class="cookie-text">🍪 Diese Website verwendet Cookies für ein optimales Erlebnis. Mehr dazu in unserer <a onclick="showPage('datenschutz')">Datenschutzerklärung</a>.</div>
   <div class="cookie-btns">
     <button class="cookie-decline" onclick="declineCookies()">Ablehnen</button>
     <button class="cookie-accept" onclick="acceptCookies()">Alle akzeptieren</button>
   </div>
 </div>
 
-<!-- CONTACT MODAL -->
+<!-- CONTACT MODAL – nur WhatsApp + Formular -->
 <div class="modal-overlay" id="contactModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h3>Jetzt Kontakt aufnehmen</h3>
-    <p class="modal-sub">Wählen Sie Ihren bevorzugten Weg – wir melden uns innerhalb von 24 Stunden. Kostenlos &amp; unverbindlich.</p>
+    <p class="modal-sub">Wählen Sie Ihren bevorzugten Weg – kostenlos &amp; unverbindlich.</p>
     <div class="contact-options">
       <a href="https://wa.me/4917680257270?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Website%20von%20JUMA!" target="_blank" class="contact-option">
         <div class="contact-option-icon icon-wa">💬</div>
         <div class="contact-option-text"><strong>WhatsApp schreiben</strong><span>+49 176 80257270 · Schnellste Antwort</span></div>
       </a>
-      <a href="mailto:mateo.sdlm@gmail.com?subject=Anfrage%20Website%20JUMA&body=Hallo%2C%0A%0Aich%20interessiere%20mich%20f%C3%BCr%20eine%20Website%20f%C3%BCr%20mein%20Restaurant.%0A%0AName%20des%20Restaurants%3A%20%0ATelefon%3A%20" class="contact-option">
-        <div class="contact-option-icon icon-mail">✉️</div>
-        <div class="contact-option-text"><strong>E-Mail schreiben</strong><span>mateo.sdlm@gmail.com</span></div>
-      </a>
       <div class="contact-option" onclick="closeModal(); showPage('kontakt');">
         <div class="contact-option-icon icon-form">📋</div>
-        <div class="contact-option-text"><strong>Kontaktformular ausfüllen</strong><span>Detaillierte Anfrage senden</span></div>
+        <div class="contact-option-text"><strong>Kontaktformular ausfüllen</strong><span>Anfrage direkt per E-Mail senden</span></div>
       </div>
     </div>
   </div>
@@ -336,12 +383,42 @@
         <button class="btn-primary" onclick="openModal()">Jetzt kostenlos anfragen</button>
         <button class="btn-secondary" onclick="showPage('portfolio')">Referenzen ansehen</button>
       </div>
-    </div>
-    <div class="hero-stats">
-      <div><div class="stat-number">77%</div><div class="stat-label">der Gäste suchen<br>online nach Restaurants</div></div>
-      <div><div class="stat-number">3×</div><div class="stat-label">mehr Vertrauen mit<br>professioneller Website</div></div>
+      <div class="hero-trust">
+        <div class="trust-item"><div class="trust-num">77%</div><div class="trust-label">der Gäste suchen<br>online nach Restaurants</div></div>
+        <div class="trust-item"><div class="trust-num">3×</div><div class="trust-label">mehr Vertrauen mit<br>professioneller Website</div></div>
+        <div class="trust-item"><div class="trust-num">48h</div><div class="trust-label">bis Ihre Website<br>live ist</div></div>
+        <div class="trust-item"><div class="trust-num">100€</div><div class="trust-label">ab diesem Preis –<br>keine versteckten Kosten</div></div>
+      </div>
     </div>
   </div>
+
+  <!-- WIE ES FUNKTIONIERT -->
+  <div class="how-section">
+    <div class="how-inner">
+      <div class="section-tag">Der Prozess</div>
+      <h2 class="section-title">In 4 Schritten zur fertigen Website</h2>
+      <div class="how-steps">
+        <div class="how-step"><div class="step-num">1</div><div class="step-title">Anfrage stellen</div><div class="step-desc">Kostenlos &amp; unverbindlich per WhatsApp oder Formular</div></div>
+        <div class="how-step"><div class="step-num">2</div><div class="step-title">Konzept besprechen</div><div class="step-desc">Wir klären Ihre Wünsche und stellen ein Angebot zusammen</div></div>
+        <div class="how-step"><div class="step-num">3</div><div class="step-title">Website erstellen</div><div class="step-desc">Professionelles Design in 48–72 Stunden fertig</div></div>
+        <div class="how-step"><div class="step-num">4</div><div class="step-title">Live gehen</div><div class="step-desc">Ihre Website ist online – Gäste finden Sie sofort</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WARUM JUMA -->
+  <div class="why-section">
+    <div class="why-inner">
+      <div class="section-tag">Warum JUMA</div>
+      <h2 class="section-title">Was uns auszeichnet</h2>
+      <div class="why-grid">
+        <div class="why-card"><div class="why-icon">⚡</div><div class="why-title">Blitzschnelle Umsetzung</div><div class="why-desc">Kein monatelanges Warten. Ihre Website ist in 48 Stunden fertig – professionell und ohne Kompromisse.</div></div>
+        <div class="why-card"><div class="why-icon">💬</div><div class="why-title">Direkter Ansprechpartner</div><div class="why-desc">Kein Callcenter. Sie reden direkt mit demjenigen, der Ihre Website baut – jederzeit erreichbar.</div></div>
+        <div class="why-card"><div class="why-icon">💰</div><div class="why-title">Faire Festpreise</div><div class="why-desc">Keine versteckten Kosten, keine Überraschungen. Alles wird vorab klar vereinbart.</div></div>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="footer-logo" onclick="showPage('start')">JUMA</div>
     <div class="footer-links"><a onclick="showPage('impressum')">Impressum</a><a onclick="showPage('datenschutz')">Datenschutz</a><a onclick="showPage('agb')">AGB</a></div>
@@ -401,7 +478,7 @@
       <div class="portfolio-card">
         <div class="portfolio-image-placeholder"><span>🍽️</span>Screenshot kommt hier rein</div>
         <div class="portfolio-info">
-          <div class="portfolio-tag">Café · Düsseldorf-Bilk</div>
+          <div class="portfolio-tag-small">Café · Düsseldorf-Bilk</div>
           <div class="portfolio-name">Café Calma</div>
           <p class="portfolio-desc">Modernes Café bekannt für seine Soufflé-Pancakes und entspannte Atmosphäre. Vollständiger Webauftritt mit Speisekarte, Öffnungszeiten, Kundenbewertungen und Instagram-Integration.</p>
           <a href="https://mateosdlm0.wixsite.com/calma" target="_blank" class="portfolio-link">Website ansehen →</a>
@@ -452,29 +529,28 @@
 
 <!-- ══════════ KONTAKT ══════════ -->
 <div class="page" id="kontakt">
-  <section style="padding:100px 60px 60px;">
+  <section class="kontakt-section" style="padding:100px 60px 60px;">
     <div class="kontakt-inner">
       <div class="kontakt-info">
         <div class="section-tag">Kontakt</div>
         <h2 class="section-title">Bereit für<br>Ihren Auftritt?</h2>
         <p>Schreiben Sie uns – wir melden uns innerhalb von 24 Stunden. Kostenlos und unverbindlich.</p>
         <a href="https://wa.me/4917680257270" target="_blank" class="contact-detail"><div class="contact-detail-icon">💬</div><span>+49 176 80257270 (WhatsApp)</span></a>
-        <a href="mailto:mateo.sdlm@gmail.com?subject=Anfrage%20Website" class="contact-detail"><div class="contact-detail-icon">✉️</div><span>mateo.sdlm@gmail.com</span></a>
+        <a href="#" data-mail="1" data-show="1" class="contact-detail"><div class="contact-detail-icon">✉️</div><span id="mail-display">mateo.sdlm@gmail.com</span></a>
         <div class="contact-detail"><div class="contact-detail-icon">📍</div><span>Düsseldorf &amp; Umgebung</span></div>
       </div>
-      <form class="contact-form" id="contactForm" onsubmit="submitForm(event)">
+      <form class="contact-form" onsubmit="submitForm(event)">
         <div class="form-row">
-          <div class="form-group"><label>Vorname</label><input type="text" placeholder="Max" required></div>
-          <div class="form-group"><label>Nachname</label><input type="text" placeholder="Mustermann"></div>
+          <div class="form-group"><label>Vorname *</label><input id="f-name" type="text" placeholder="Max" required></div>
+          <div class="form-group"><label>Telefon</label><input id="f-tel" type="tel" placeholder="+49 ..."></div>
         </div>
-        <div class="form-group"><label>E-Mail *</label><input type="email" placeholder="restaurant@beispiel.de" required></div>
-        <div class="form-group"><label>Telefon</label><input type="tel" placeholder="+49 ..."></div>
+        <div class="form-group"><label>Ihre E-Mail *</label><input id="f-email" type="email" placeholder="restaurant@beispiel.de" required></div>
         <div class="form-group"><label>Paket</label>
-          <select><option value="">Bitte auswählen...</option><option>Starter (100 €)</option><option>Komplett (200 €)</option><option>Monatliche Pflege (25 €/Monat)</option><option>Ich bin noch unsicher</option></select>
+          <select id="f-paket"><option value="">Bitte auswählen...</option><option>Starter (100 €)</option><option>Komplett (200 €)</option><option>Monatliche Pflege (25 €/Monat)</option><option>Ich bin noch unsicher</option></select>
         </div>
-        <div class="form-group"><label>Nachricht *</label><textarea placeholder="Erzählen Sie uns kurz von Ihrem Restaurant..." required></textarea></div>
-        <button type="submit" class="form-submit">Nachricht senden →</button>
-        <div class="form-success" id="formSuccess">✓ Vielen Dank! Wir melden uns innerhalb von 24 Stunden.<br>Oder direkt: <a href="https://wa.me/4917680257270" target="_blank" style="color:var(--gold);">WhatsApp schreiben</a></div>
+        <div class="form-group"><label>Nachricht *</label><textarea id="f-msg" placeholder="Erzählen Sie uns kurz von Ihrem Restaurant..." required></textarea></div>
+        <button type="submit" class="form-submit">Anfrage per E-Mail senden →</button>
+        <p class="form-note">Beim Klick öffnet sich Ihr E-Mail-Programm mit Ihrer Anfrage vorausgefüllt.</p>
       </form>
     </div>
   </section>
@@ -488,7 +564,9 @@
       <button class="legal-back" onclick="showPage('start')">← Zurück zur Startseite</button>
       <h1>Impressum</h1>
       <h2>Angaben gemäß § 5 TMG</h2>
-      <p>JUMA Webdesign · Düsseldorf, Deutschland<br>mateo.sdlm@gmail.com · +49 176 80257270</p>
+      <p>JUMA Webdesign · Düsseldorf, Deutschland<br>+49 176 80257270</p>
+      <h2>Kontakt</h2>
+      <p><a href="#" data-mail="1" data-show="1" style="color:var(--gold);">mateo.sdlm@gmail.com</a></p>
       <h2>Verantwortlich für den Inhalt</h2>
       <p>JUMA Webdesign, Düsseldorf</p>
       <h2>Haftungsausschluss</h2>
@@ -507,13 +585,13 @@
       <button class="legal-back" onclick="showPage('start')">← Zurück zur Startseite</button>
       <h1>Datenschutzerklärung</h1>
       <h2>1. Verantwortlicher</h2>
-      <p>JUMA Webdesign, Düsseldorf · mateo.sdlm@gmail.com</p>
+      <p>JUMA Webdesign, Düsseldorf</p>
       <h2>2. Erhebung von Daten</h2>
-      <p>Beim Besuch dieser Website werden keine personenbezogenen Daten automatisch erhoben. Kontaktdaten aus dem Kontaktformular, per E-Mail oder WhatsApp werden ausschließlich zur Bearbeitung Ihrer Anfrage gespeichert.</p>
+      <p>Beim Besuch dieser Website werden keine personenbezogenen Daten automatisch erhoben. Kontaktdaten aus dem Kontaktformular werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet.</p>
       <h2>3. Cookies</h2>
       <p>Diese Website verwendet ausschließlich technisch notwendige Cookies. Diese enthalten keine personenbezogenen Daten und dienen nur der grundlegenden Funktionalität der Seite.</p>
       <h2>4. Ihre Rechte</h2>
-      <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Kontakt: mateo.sdlm@gmail.com</p>
+      <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer Daten. Bei Fragen wenden Sie sich per WhatsApp oder E-Mail an uns.</p>
     </div>
   </section>
   <footer><div class="footer-logo" onclick="showPage('start')">JUMA</div><div class="footer-links"><a onclick="showPage('impressum')">Impressum</a><a onclick="showPage('datenschutz')">Datenschutz</a><a onclick="showPage('agb')">AGB</a></div><div class="footer-copy">© 2026 JUMA Webdesign</div></footer>
@@ -542,7 +620,7 @@
   <footer><div class="footer-logo" onclick="showPage('start')">JUMA</div><div class="footer-links"><a onclick="showPage('impressum')">Impressum</a><a onclick="showPage('datenschutz')">Datenschutz</a><a onclick="showPage('agb')">AGB</a></div><div class="footer-copy">© 2026 JUMA Webdesign</div></footer>
 </div>
 
-<!-- WHATSAPP FLOAT -->
+<!-- WHATSAPP -->
 <a href="https://wa.me/4917680257270?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Website!" target="_blank" class="wa-float">
   💬<span class="wa-tooltip">Direkt auf WhatsApp</span>
 </a>
