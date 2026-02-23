@@ -192,6 +192,7 @@
   .why-desc{ font-size:0.85rem; color:rgba(250,250,247,0.5); line-height:1.7; }
 
   /* ÜBER */
+  .ueber-section{ padding:100px 60px 60px; overflow-x:hidden; }
   .ueber-grid{ display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto; }
   .ueber-text p{ color:rgba(250,250,247,0.6); line-height:1.85; font-size:1rem; margin-bottom:16px; }
   .ueber-text p strong{ color:var(--white); }
@@ -303,7 +304,8 @@
     .wa-float{ bottom:20px; right:16px; width:48px; height:48px; font-size:1.3rem; }
     .wa-tooltip{ display:none; }
 
-    #leistungen section, #portfolio section, #preise section, #kontakt section, #impressum section, #datenschutz section, #agb section, #ueber section{ padding:70px 20px 40px; }
+    #leistungen section, #portfolio section, #preise section, #kontakt section, #impressum section, #datenschutz section, #agb section, .ueber-section{ padding:70px 20px 40px !important; }
+    .ueber-section { overflow-x:hidden; }
   }
   @media(max-width:480px){
     .hero-title{ font-size:2.6rem; }
@@ -428,7 +430,7 @@
 
 <!-- ══════════ ÜBER UNS ══════════ -->
 <div class="page" id="ueber">
-  <section style="padding:100px 60px 60px;">
+  <section class="ueber-section">
     <div class="ueber-grid">
       <div class="ueber-text">
         <div class="section-tag">Über uns</div>
@@ -536,7 +538,7 @@
         <h2 class="section-title">Bereit für<br>Ihren Auftritt?</h2>
         <p>Schreiben Sie uns – wir melden uns innerhalb von 24 Stunden. Kostenlos und unverbindlich.</p>
         <a href="https://wa.me/4917680257270" target="_blank" class="contact-detail"><div class="contact-detail-icon">💬</div><span>+49 176 80257270 (WhatsApp)</span></a>
-        <a href="#" data-mail="1" data-show="1" class="contact-detail"><div class="contact-detail-icon">✉️</div><span id="mail-display">mateo.sdlm@gmail.com</span></a>
+        <a href="#" data-mail="1" data-show="1" class="contact-detail"><div class="contact-detail-icon">✉️</div><span id="mail-display"><span class="__cf_email__" data-cfemail="e18c8095848ecf92858d8ca1868c80888dcf828e8c">[email&#160;protected]</span></span></a>
         <div class="contact-detail"><div class="contact-detail-icon">📍</div><span>Düsseldorf &amp; Umgebung</span></div>
       </div>
       <form class="contact-form" onsubmit="submitForm(event)">
@@ -566,9 +568,13 @@
       <h2>Angaben gemäß § 5 TMG</h2>
       <p>JUMA Webdesign · Düsseldorf, Deutschland<br>+49 176 80257270</p>
       <h2>Kontakt</h2>
-      <p><a href="#" data-mail="1" data-show="1" style="color:var(--gold);">mateo.sdlm@gmail.com</a></p>
+      <p><a href="#" data-mail="1" data-show="1" style="color:var(--gold);"><span class="__cf_email__" data-cfemail="7d101c091812530e1911103d1a101c1411531e1210">[email&#160;protected]</span></a></p>
       <h2>Verantwortlich für den Inhalt</h2>
       <p>JUMA Webdesign, Düsseldorf</p>
+      <h2>Hinweis zur Umsatzsteuer</h2>
+      <p>Als Kleinunternehmer im Sinne von § 19 Abs. 1 UStG wird keine Umsatzsteuer berechnet und ausgewiesen.</p>
+      <h2>Online-Streitbeilegung</h2>
+      <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" style="color:var(--gold);">ec.europa.eu/consumers/odr</a>. Wir sind weder verpflichtet noch bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
       <h2>Haftungsausschluss</h2>
       <p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann keine Gewähr übernommen werden.</p>
       <h2>Urheberrecht</h2>
@@ -621,9 +627,4 @@
 </div>
 
 <!-- WHATSAPP -->
-<a href="https://wa.me/4917680257270?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Website!" target="_blank" class="wa-float">
-  💬<span class="wa-tooltip">Direkt auf WhatsApp</span>
-</a>
-
-</body>
-</html>
+<a href="https://wa.me/491768025727
