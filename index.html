@@ -4,6 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JUMA – Webdesign für Restaurants &amp; Cafés</title>
+<meta name="description" content="JUMA Webdesign – professionelle Websites für Restaurants & Cafés in Düsseldorf. Ab 100 €, fertig in 48 Stunden. Jetzt kostenlos anfragen!" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "JUMA Webdesign",
+  "description": "Professionelle Websites für Restaurants & Cafés in Düsseldorf. Ab 100 €, fertig in 48 Stunden.",
+  "url": "https://juma-webui.de",
+  "telephone": "+4917680257270",
+  "email": "mateo.sdlm@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Düsseldorf",
+    "addressCountry": "DE"
+  },
+  "logo": "https://juma-webui.de/logo.png",
+  "image": "https://juma-webui.de/logo.png",
+  "priceRange": "€€",
+  "openingHours": "Mo-So 09:00-21:00",
+  "sameAs": []
+}
+</script>
 <meta name="google-site-verification" content="k0bu4miHpwuY63nLZTKS-OfTh96vTbPEmX8dD283DvA" />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script>
@@ -21,6 +43,19 @@ window.showPage = function(id) {
 };
 window.openModal = function(){
   document.getElementById('contactModal').classList.add('open');
+  document.body.style.overflow='hidden';
+};
+window.openModalWithContext = function(context){
+  var modal = document.getElementById('contactModal');
+  var waLink = modal.querySelector('.co-wa-link');
+  var waMessages = {
+    'bildervideo': 'Hallo! Ich interessiere mich für den Foto- & Videoservice von JUMA. Können wir kurz sprechen?',
+    'socialmedia': 'Hallo! Ich interessiere mich für die Social Media Betreuung (Instagram & TikTok) von JUMA. Können wir kurz sprechen?',
+    'default': 'Hallo, ich interessiere mich für eine Website von JUMA!'
+  };
+  var msg = waMessages[context] || waMessages['default'];
+  if(waLink) waLink.href = 'https://wa.me/4917680257270?text=' + encodeURIComponent(msg);
+  modal.classList.add('open');
   document.body.style.overflow='hidden';
 };
 window.closeModal = function(){
@@ -41,8 +76,15 @@ window.submitForm = function(e){
   var t=document.getElementById('ft').value;
   var pk=document.getElementById('fp').value;
   var ms=document.getElementById('fm').value;
-  var body='Name: '+n+'\nE-Mail: '+em+'\nTelefon: '+t+'\nPaket: '+pk+'\n\nNachricht:\n'+ms;
-  window.location.href='mailto:'+MAIL+'?subject=Anfrage%20JUMA%20Webdesign&body='+encodeURIComponent(body);
+  var bud=document.getElementById('fb') ? document.getElementById('fb').value : '';
+  var body='Name: '+n+'\nE-Mail: '+em+'\nTelefon: '+t+'\nService: '+pk+(bud?'\nBudget: '+bud:'')+'\n\nProjektbeschreibung:\n'+ms;
+  // Email
+  window.location.href='mailto:'+MAIL+'?subject=Projektanfrage%20JUMA&body='+encodeURIComponent(body);
+  // WhatsApp after short delay
+  setTimeout(function(){
+    var waText='Hallo! Ich interessiere mich für '+pk+'. Name: '+n+', Tel: '+t;
+    window.open('https://wa.me/4917680257270?text='+encodeURIComponent(waText),'_blank');
+  }, 1000);
 };
 window.acceptCookies = function(){
   document.getElementById('cookieBanner').style.display='none';
@@ -528,7 +570,7 @@ footer{
     <h3>Jetzt Kontakt aufnehmen</h3>
     <p class="modal-sub">Kostenlos &amp; unverbindlich – wir melden uns innerhalb von 24 Stunden.</p>
     <div class="contact-options">
-      <a href="https://wa.me/4917680257270?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Website%20von%20JUMA!" target="_blank" class="contact-option">
+      <a href="https://wa.me/4917680257270?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Website%20von%20JUMA!" target="_blank" class="contact-option co-wa-link">
         <div class="co-icon co-wa">💬</div>
         <div class="co-text"><strong>WhatsApp schreiben</strong><span>+49 176 80257270 · Schnellste Antwort</span></div>
       </a>
@@ -546,6 +588,8 @@ footer{
   <a href="#" onclick="showPage('start'); return false;">Start</a>
   <a href="#" onclick="showPage('ueber'); return false;">Über uns</a>
   <a href="#" onclick="showPage('leistungen'); return false;">Leistungen</a>
+  <a href="#" onclick="showPage('bildervideo'); return false;">Bilder &amp; Videos</a>
+  <a href="#" onclick="showPage('socialmedia'); return false;">Social Media</a>
   <a href="#" onclick="showPage('portfolio'); return false;">Portfolio</a>
   <a href="#" onclick="showPage('preise'); return false;">Preise</a>
   <a href="#" onclick="showPage('faq'); return false;">FAQ</a>
@@ -560,6 +604,8 @@ footer{
     <li><a data-page="start" onclick="showPage('start')">Start</a></li>
     <li><a data-page="ueber" onclick="showPage('ueber')">Über uns</a></li>
     <li><a data-page="leistungen" onclick="showPage('leistungen')">Leistungen</a></li>
+    <li><a data-page="bildervideo" onclick="showPage('bildervideo')">Bilder &amp; Videos</a></li>
+    <li><a data-page="socialmedia" onclick="showPage('socialmedia')">Social Media</a></li>
     <li><a data-page="portfolio" onclick="showPage('portfolio')">Portfolio</a></li>
     <li><a data-page="preise" onclick="showPage('preise')">Preise</a></li>
     <li><a data-page="faq" onclick="showPage('faq')">FAQ</a></li>
@@ -615,6 +661,60 @@ footer{
       </div>
     </div>
   </div>
+
+  <!-- BILDER & VIDEOS TEASER -->
+  <div style="padding:96px 64px;background:var(--dark);">
+    <div class="teaser-grid" style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+      <div>
+        <div class="stag">Bilder &amp; Videos</div>
+        <h2 class="stitle">Ihr Restaurant.<br><em style="font-style:italic;color:var(--gold);">Professionell in Szene gesetzt.</em></h2>
+        <p style="color:rgba(250,250,247,0.5);line-height:1.85;font-size:0.95rem;margin-bottom:32px;">Von der Speisekarte bis zum Imagevideo – wir sorgen dafür, dass Ihr Restaurant online und offline begeistert. Professionelle Fotos und Videos die Gäste anziehen.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn-g" onclick="showPage('bildervideo')">Mehr erfahren</button>
+          <button class="btn-o" onclick="openModalWithContext('bildervideo')">Jetzt anfragen</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:var(--black);border:1px solid rgba(201,168,76,0.12);padding:28px 32px;display:flex;align-items:center;gap:20px;">
+          <span style="font-size:2rem;">🎬</span>
+          <div><div style="font-size:0.88rem;font-weight:600;margin-bottom:4px;">Imagevideo</div><div style="font-size:0.78rem;color:rgba(250,250,247,0.35);">Professionelle Imagevideos für Ihr Restaurant</div></div>
+        </div>
+        <div style="background:var(--black);border:1px solid rgba(201,168,76,0.12);padding:28px 32px;display:flex;align-items:center;gap:20px;">
+          <span style="font-size:2rem;">📸</span>
+          <div><div style="font-size:0.88rem;font-weight:600;margin-bottom:4px;">Fotoservice</div><div style="font-size:0.78rem;color:rgba(250,250,247,0.35);">Events, Business & Social Media Fotos</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL MEDIA TEASER -->
+  <div style="padding:96px 64px;">
+    <div class="teaser-grid" style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:var(--dark);border:1px solid rgba(201,168,76,0.12);padding:28px 32px;display:flex;align-items:center;gap:20px;">
+          <span style="font-size:2rem;">📲</span>
+          <div><div style="font-size:0.88rem;font-weight:600;margin-bottom:4px;">Content Erstellung</div><div style="font-size:0.78rem;color:rgba(250,250,247,0.35);">Fotos, Reels & Videos für Instagram & TikTok</div></div>
+        </div>
+        <div style="background:var(--dark);border:1px solid rgba(201,168,76,0.12);padding:28px 32px;display:flex;align-items:center;gap:20px;">
+          <span style="font-size:2rem;">📅</span>
+          <div><div style="font-size:0.88rem;font-weight:600;margin-bottom:4px;">Posting Planung</div><div style="font-size:0.78rem;color:rgba(250,250,247,0.35);">Regelmäßig & zum optimalen Zeitpunkt</div></div>
+        </div>
+        <div style="background:var(--dark);border:1px solid rgba(201,168,76,0.12);padding:28px 32px;display:flex;align-items:center;gap:20px;">
+          <span style="font-size:2rem;">📈</span>
+          <div><div style="font-size:0.88rem;font-weight:600;margin-bottom:4px;">Account Betreuung</div><div style="font-size:0.78rem;color:rgba(250,250,247,0.35);">Wachstum, Strategie & monatliches Reporting</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="stag">Social Media</div>
+        <h2 class="stitle">Mehr Reichweite.<br><em style="font-style:italic;color:var(--gold);">Mehr Gäste.</em></h2>
+        <p style="color:rgba(250,250,247,0.5);line-height:1.85;font-size:0.95rem;margin-bottom:32px;">Wir übernehmen Ihren Instagram und TikTok komplett – Content Erstellung, Posting-Planung und Betreuung. Sie kochen. Wir posten.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="btn-g" onclick="showPage('socialmedia')">Mehr erfahren</button>
+          <button class="btn-o" onclick="openModalWithContext('socialmedia')">Jetzt anfragen</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <footer>
     <div class="flogo" onclick="showPage('start')">JUMA</div>
     <div class="flinks"><a onclick="showPage('impressum')">Impressum</a><a onclick="showPage('datenschutz')">Datenschutz</a><a onclick="showPage('agb')">AGB</a></div>
@@ -663,6 +763,12 @@ footer{
         <div class="svc-card"><span class="svc-icon">📅</span><div class="svc-t">Eventankündigungen</div><p class="svc-d">Livemusik, Brunch oder Sondermenü? Wir zeigen Ihre Events prominent.</p></div>
         <div class="svc-card"><span class="svc-icon">📍</span><div class="svc-t">Google Maps &amp; Kontakt</div><p class="svc-d">Interaktive Karte, Telefonnummer, Öffnungszeiten – alles auf einen Blick.</p></div>
         <div class="svc-card"><span class="svc-icon">🔧</span><div class="svc-t">Laufende Pflege</div><p class="svc-d">Mit unserem Pflegepaket halten wir Ihre Website immer aktuell.</p></div>
+        <div class="svc-card" style="border-top:1px solid rgba(201,168,76,0.3);"><span class="svc-icon">🎬</span><div class="svc-t">Imagevideo Produktion</div><p class="svc-d">Professionelle Imagevideos für Ihr Restaurant – perfekt für Social Media, Website und Werbung.</p><button class="svc-btn" onclick="showPage('bildervideo')">Mehr erfahren →</button></div>
+        <div class="svc-card" style="border-top:1px solid rgba(201,168,76,0.3);"><span class="svc-icon">📸</span><div class="svc-t">Fotoservice</div><p class="svc-d">Events, Business & Social Media Fotos – professionell fotografiert, sofort einsatzbereit.</p><button class="svc-btn" onclick="showPage('bildervideo')">Mehr erfahren →</button></div>
+        <div class="svc-card" style="border-top:1px solid rgba(201,168,76,0.3);"><span class="svc-icon">📲</span><div class="svc-t">Social Media Service</div><p class="svc-d">Content Erstellung, Posting-Planung und Betreuung Ihres Instagram & TikTok Accounts.</p><button class="svc-btn" onclick="showPage('bildervideo')">Mehr erfahren →</button></div>
+      </div>
+      <div style="text-align:center;margin-top:48px;">
+        <button class="btn-g" onclick="showPage('bildervideo')">Alle neuen Services ansehen</button>
       </div>
     </div>
   </div>
@@ -762,22 +868,30 @@ footer{
       </div>
       <form class="k-form" onsubmit="submitForm(event)">
         <div class="f-row">
-          <div class="f-grp"><label>Vorname *</label><input id="fn" type="text" placeholder="Max" required></div>
-          <div class="f-grp"><label>Telefon</label><input id="ft" type="tel" placeholder="+49 ..."></div>
+          <div class="f-grp"><label>Name *</label><input id="fn" type="text" placeholder="Max Mustermann" required></div>
+          <div class="f-grp"><label>Telefon *</label><input id="ft" type="tel" placeholder="+49 ..." required></div>
         </div>
-        <div class="f-grp"><label>Ihre E-Mail *</label><input id="fe" type="email" placeholder="restaurant@beispiel.de" required></div>
-        <div class="f-grp"><label>Paket</label>
-          <select id="fp">
+        <div class="f-grp"><label>E-Mail *</label><input id="fe" type="email" placeholder="restaurant@beispiel.de" required></div>
+        <div class="f-grp"><label>Service auswählen *</label>
+          <select id="fp" required>
             <option value="">Bitte auswählen...</option>
-            <option>Starter (100 €)</option>
-            <option>Komplett (200 €)</option>
-            <option>Monatliche Pflege (25 €/Monat)</option>
+            <optgroup label="Webdesign">
+              <option>Starter Website (100 €)</option>
+              <option>Komplett Website (200 €)</option>
+              <option>Monatliche Pflege (25 €/Monat)</option>
+            </optgroup>
+            <optgroup label="Neue Services">
+              <option>Imagevideo Produktion</option>
+              <option>Fotoservice (Events / Business / Social Media)</option>
+              <option>Social Media Betreuung (Instagram &amp; TikTok)</option>
+            </optgroup>
             <option>Ich bin noch unsicher</option>
           </select>
         </div>
-        <div class="f-grp"><label>Nachricht *</label><textarea id="fm" placeholder="Erzählen Sie uns kurz von Ihrem Restaurant..." required></textarea></div>
-        <button type="submit" class="f-submit">Anfrage per E-Mail senden →</button>
-        <p class="f-note">Beim Klick öffnet sich Ihr E-Mail-Programm mit Ihrer Anfrage vorausgefüllt.</p>
+        <div class="f-grp"><label>Projektbeschreibung *</label><textarea id="fm" placeholder="Beschreiben Sie kurz Ihr Projekt..." required></textarea></div>
+        <div class="f-grp"><label>Budget (optional)</label><input id="fb" type="text" placeholder="z.B. 300 €"></div>
+        <button type="submit" class="f-submit">Jetzt anfragen →</button>
+        <p class="f-note">Nach dem Absenden öffnen sich Ihr E-Mail-Programm und WhatsApp mit Ihrer Anfrage vorausgefüllt.</p>
       </form>
     </div>
   </div>
@@ -865,8 +979,187 @@ footer{
   </footer>
 </div>
 
-<!-- ══ FAQ ══ -->
-<div class="page" id="faq">
+<!-- ══ EXTRAS ══ -->
+<div class="page" id="bildervideo">
+  <div style="padding:110px 64px 90px;width:100%;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="stag">Zusätzliche Services</div>
+      <h2 class="stitle">Video &amp; Foto –<br><em style="font-style:italic;color:var(--gold);">Ihr Restaurant im besten Licht</em></h2>
+      <p style="color:rgba(250,250,247,0.5);font-size:0.95rem;line-height:1.8;max-width:560px;margin-bottom:72px;">Professionelle Fotos und Videos die Ihre Gäste begeistern – perfekt für Website, Google und Social Media.</p>
+
+      <!-- IMAGEVIDEO -->
+      <div class="srv-block">
+        <div class="srv-header">
+          <div class="srv-num">01</div>
+          <div>
+            <div class="stag">Imagevideo</div>
+            <h3 class="srv-title">Imagevideo Produktion</h3>
+            <p class="srv-desc">Ein professionelles Imagevideo zeigt Ihr Restaurant von seiner besten Seite – Atmosphäre, Speisen, Team. Perfekt für Website, Instagram, TikTok und Google.</p>
+            <ul class="srv-list">
+              <li>Vollständige Videoproduktion vor Ort</li>
+              <li>Schnitt, Musik &amp; Nachbearbeitung inklusive</li>
+              <li>Format für Reels, TikTok &amp; Website</li>
+              <li>Lieferung innerhalb von 5–7 Tagen</li>
+            </ul>
+            <button class="btn-g" onclick="openModal()" style="margin-top:24px;">Jetzt anfragen</button>
+          </div>
+        </div>
+        <div class="srv-media">
+          <div style="background:var(--dark);border:1px solid rgba(201,168,76,0.1);padding:32px;display:flex;align-items:center;gap:16px;"><span style="font-size:1.6rem;">🎬</span><span style="font-size:0.82rem;color:rgba(250,250,247,0.3);letter-spacing:0.06em;">Beispielvideos werden in Kürze hinzugefügt</span></div>
+        </div>
+      </div>
+
+      <div class="srv-divider"></div>
+
+      <!-- FOTOSERVICE -->
+      <div class="srv-block">
+        <div class="srv-header">
+          <div class="srv-num">02</div>
+          <div>
+            <div class="stag">Fotografie</div>
+            <h3 class="srv-title">Fotoservice</h3>
+            <p class="srv-desc">Professionelle Fotos für Events, Business und Social Media. Hochwertige Bilder die Ihre Gäste ansprechen – und Ihr Restaurant unverwechselbar machen.</p>
+            <ul class="srv-list">
+              <li>Event-Fotografie (Eröffnungen, Abende, Specials)</li>
+              <li>Business Fotos (Team, Location, Gerichte)</li>
+              <li>Social Media Content Pakete</li>
+              <li>Bearbeitung &amp; Lieferung innerhalb von 48h</li>
+            </ul>
+            <button class="btn-g" onclick="openModal()" style="margin-top:24px;">Jetzt anfragen</button>
+          </div>
+        </div>
+        <div class="srv-media">
+          <div style="background:var(--dark);border:1px solid rgba(201,168,76,0.1);padding:32px;display:flex;align-items:center;gap:16px;"><span style="font-size:1.6rem;">📸</span><span style="font-size:0.82rem;color:rgba(250,250,247,0.3);letter-spacing:0.06em;">Beispielfotos werden in Kürze hinzugefügt</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:56px;padding:40px;border:1px solid rgba(201,168,76,0.2);text-align:center;background:rgba(201,168,76,0.03);">
+        <p style="color:rgba(250,250,247,0.45);font-size:0.9rem;margin-bottom:20px;">Social Media Betreuung gesucht?</p>
+        <button class="btn-g" onclick="showPage('socialmedia')">Zur Reichweite-Seite →</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="flogo" onclick="showPage('start')">JUMA</div>
+    <div class="flinks"><a onclick="showPage('impressum')">Impressum</a><a onclick="showPage('datenschutz')">Datenschutz</a><a onclick="showPage('agb')">AGB</a></div>
+    <div class="fcopy">© 2026 JUMA Webdesign</div>
+  </footer>
+</div>
+
+<!-- ══ REICHWEITE ══ -->
+<div class="page" id="socialmedia">
+  <div style="padding:110px 64px 90px;width:100%;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="stag">Social Media</div>
+      <h2 class="stitle">Social Media –<br><em style="font-style:italic;color:var(--gold);">Mehr Gäste. Mehr Sichtbarkeit.</em></h2>
+      <p style="color:rgba(250,250,247,0.5);font-size:0.95rem;line-height:1.8;max-width:560px;margin-bottom:72px;">Wir übernehmen Ihren Instagram und TikTok Account vollständig – von der Content Erstellung bis zum Posting. Sie kochen, wir posten.</p>
+
+      <div class="srv-block">
+        <div class="srv-header">
+          <div class="srv-num">01</div>
+          <div>
+            <div class="stag">Content</div>
+            <h3 class="srv-title">Content Erstellung</h3>
+            <p class="srv-desc">Wir erstellen professionellen Content speziell für Ihr Restaurant – Fotos, Reels, Stories. Alles auf Ihre Marke und Zielgruppe zugeschnitten.</p>
+            <ul class="srv-list">
+              <li>Monatliche Content-Shootings</li>
+              <li>Reels &amp; TikTok Videos</li>
+              <li>Stories &amp; Highlights</li>
+              <li>Captions &amp; Hashtag Strategie</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="srv-divider"></div>
+
+      <div class="srv-block">
+        <div class="srv-header">
+          <div class="srv-num">02</div>
+          <div>
+            <div class="stag">Planung</div>
+            <h3 class="srv-title">Posting Planung</h3>
+            <p class="srv-desc">Kein chaotisches Posten mehr. Wir erstellen einen monatlichen Content-Plan und posten zum optimalen Zeitpunkt – automatisch und konsistent.</p>
+            <ul class="srv-list">
+              <li>Monatlicher Content-Kalender</li>
+              <li>Optimale Posting-Zeiten</li>
+              <li>Konsistentes Erscheinungsbild</li>
+              <li>Regelmäßige Abstimmung mit Ihnen</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="srv-divider"></div>
+
+      <div class="srv-block">
+        <div class="srv-header">
+          <div class="srv-num">03</div>
+          <div>
+            <div class="stag">Betreuung</div>
+            <h3 class="srv-title">Instagram &amp; TikTok Betreuung</h3>
+            <p class="srv-desc">Wir betreuen Ihre Accounts vollständig – Community Management, Kommentare beantworten, Wachstumsstrategie und monatliches Reporting.</p>
+            <ul class="srv-list">
+              <li>Instagram &amp; TikTok vollständig betreut</li>
+              <li>Community Management</li>
+              <li>Wachstumsstrategie</li>
+              <li>Monatliches Reporting</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:72px;padding:48px;border:1px solid rgba(201,168,76,0.2);text-align:center;background:rgba(201,168,76,0.03);">
+        <div class="stag">Bereit für mehr Reichweite?</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;margin-bottom:12px;">Kostenlose Erstberatung</h3>
+        <p style="color:rgba(250,250,247,0.45);font-size:0.9rem;margin-bottom:28px;">Wir analysieren Ihren Account und zeigen Ihnen kostenlos das Potenzial.</p>
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn-g" onclick="openModalWithContext('socialmedia')">Jetzt anfragen</button>
+          <a href="https://wa.me/4917680257270?text=Hallo%21%20Ich%20interessiere%20mich%20f%C3%BCr%20die%20Social%20Media%20Betreuung%20(Instagram%20%26%20TikTok)%20von%20JUMA." target="_blank" class="btn-o">WhatsApp schreiben</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="flogo" onclick="showPage('start')">JUMA</div>
+    <div class="flinks"><a onclick="showPage('impressum')">Impressum</a><a onclick="showPage('datenschutz')">Datenschutz</a><a onclick="showPage('agb')">AGB</a></div>
+    <div class="fcopy">© 2026 JUMA Webdesign</div>
+  </footer>
+</div>
+
+<style>
+.svc-btn{
+  background:none; border:1px solid rgba(201,168,76,0.4); color:var(--gold);
+  padding:10px 20px; font-size:0.8rem; cursor:pointer; margin-top:16px;
+  font-family:'DM Sans',sans-serif; transition:all 0.2s; letter-spacing:0.04em;
+}
+.svc-btn:hover{ background:var(--gold); color:var(--black); }
+.srv-block{ margin-bottom:16px; }
+.srv-header{ display:grid; grid-template-columns:80px 1fr; gap:32px; align-items:start; margin-bottom:28px; }
+.srv-num{ font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; color:rgba(201,168,76,0.2); line-height:1; padding-top:8px; }
+.srv-title{ font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; margin-bottom:14px; }
+.srv-desc{ color:rgba(250,250,247,0.5); font-size:0.92rem; line-height:1.8; margin-bottom:20px; max-width:580px; }
+.srv-list{ list-style:none; display:flex; flex-direction:column; gap:10px; }
+.srv-list li{ display:flex; align-items:flex-start; gap:12px; font-size:0.85rem; color:rgba(250,250,247,0.6); }
+.srv-list li::before{ content:'—'; color:var(--gold); flex-shrink:0; }
+.srv-media{ margin-left:112px; }
+.srv-placeholder{
+  background:var(--dark); border:1px solid rgba(255,255,255,0.06);
+  height:200px; display:flex; align-items:center; justify-content:center;
+  gap:14px; color:rgba(250,250,247,0.2); font-size:1.2rem;
+}
+.srv-placeholder span{ font-size:0.82rem; letter-spacing:0.06em; text-transform:uppercase; }
+.srv-divider{ height:1px; background:rgba(255,255,255,0.06); margin:56px 0; }
+@media(max-width:900px){
+  #bildervideo > div, #socialmedia > div{ padding:80px 24px 56px!important; }
+  .srv-header{ grid-template-columns:1fr; gap:12px; }
+  .srv-num{ font-size:2.5rem; }
+  .srv-media{ margin-left:0; }
+  /* start page teasers */
+  .teaser-grid{ grid-template-columns:1fr!important; gap:32px!important; }
+  #start [style*='padding:96px 64px']{ padding:64px 24px!important; }
+}
+</style><div class="page" id="faq">
   <div style="padding:100px 60px 80px;width:100%;">
     <div style="max-width:900px;margin:0 auto;">
       <div class="stag">FAQ</div>
