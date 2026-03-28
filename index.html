@@ -3,8 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JUMA – Webdesign für Restaurants &amp; Cafés</title>
-<meta name="description" content="JUMA Webdesign – professionelle Websites für Restaurants & Cafés in Düsseldorf. Ab 100 €, fertig in 48 Stunden. Jetzt kostenlos anfragen!" />
+<title>JUMA Webdesign Düsseldorf – Website für Restaurant & Café ab 100 €</title>
+<meta name="description" content="Website für Ihr Restaurant oder Café ab 100 € – fertig in 48 Stunden. JUMA Webdesign Düsseldorf: günstig, professionell, mobiloptimiert. Jetzt kostenlos anfragen!" />
+<meta name="keywords" content="Webdesign Restaurant Düsseldorf, Website Café günstig, Homepage Restaurant ab 100 Euro, Webdesign Gastronomie, Website erstellen lassen günstig, Webdesign NRW, Restaurant Website günstig, Café Website Düsseldorf" />
+<meta property="og:title" content="JUMA Webdesign – Website für Restaurant & Café ab 100 €" />
+<meta property="og:description" content="Professionelle Website für Ihr Restaurant ab 100 € – fertig in 48 Stunden. Günstig, mobiloptimiert, direkt ansprechbar." />
+<meta property="og:url" content="https://juma-webui.de" />
+<meta property="og:type" content="website" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -68,6 +73,19 @@ window.toggleMenu = function(){
   m.classList.toggle('open');
   b.classList.toggle('open');
   document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+};
+window.submitQuickForm = function(e){
+  e.preventDefault();
+  var n=document.getElementById('qname').value;
+  var p=document.getElementById('qphone').value;
+  var s=document.getElementById('qservice').value;
+  var m=document.getElementById('qmsg').value;
+  var waText='Hallo! Ich heiße '+n+' und interessiere mich für: '+s+(m?' – '+m:'');
+  var body='Name: '+n+'\nTelefon: '+p+'\nService: '+s+(m?'\n\nBeschreibung: '+m:'');
+  window.location.href='mailto:'+MAIL+'?subject=Anfrage+JUMA+Webdesign&body='+encodeURIComponent(body);
+  setTimeout(function(){
+    window.open('https://wa.me/4917680257270?text='+encodeURIComponent(waText),'_blank');
+  },800);
 };
 window.submitForm = function(e){
   e.preventDefault();
@@ -140,7 +158,7 @@ nav{
   border-bottom:1px solid rgba(201,168,76,0.12);
   transition:all 0.4s ease; gap:16px;
 }
-nav.scrolled{ padding:13px 32px; background:rgba(12,12,12,0.98); }
+nav.scrolled{ padding:13px 32px; background:rgba(12,12,12,0.98); top:33px; }
 .nav-logo{
   font-family:'Playfair Display',serif; font-size:1.55rem;
   font-weight:900; color:var(--gold); cursor:pointer; letter-spacing:0.08em;
@@ -304,7 +322,7 @@ footer{
 /* ══════ START ══════ */
 .hero-wrap{
   min-height:100vh; display:flex; flex-direction:column;
-  justify-content:center; padding:130px 64px 100px;
+  justify-content:center; padding:160px 64px 100px;
   position:relative; overflow:hidden;
 }
 .hero-bg{
@@ -515,8 +533,11 @@ footer{
 
 /* ══════ MOBILE ══════ */
 @media(max-width:900px){
-  nav{ padding:14px 20px; }
-  nav.scrolled{ padding:12px 20px; }
+  #topbar{ display:none!important; }
+  nav{ padding:14px 20px; top:0!important; }
+  nav.scrolled{ padding:12px 20px; top:0!important; }
+  .hero-wrap{ padding:100px 24px 64px!important; }
+  .hero-inner{ grid-template-columns:1fr!important; gap:32px!important; }
   .nav-links{ display:none; }
   .hamburger{ display:flex; }
   .hero-wrap{ padding:90px 24px 64px; }
@@ -597,8 +618,17 @@ footer{
   <a href="#" class="mobile-cta" onclick="toggleMenu(); openModal(); return false;">Jetzt anfragen</a>
 </div>
 
+<!-- TOP BAR -->
+<div id="topbar" style="background:#080808;border-bottom:1px solid rgba(201,168,76,0.1);padding:8px 64px;display:flex;justify-content:flex-end;align-items:center;gap:24px;font-size:0.75rem;color:rgba(250,250,247,0.45);position:fixed;top:0;left:0;right:0;z-index:1001;">
+  <a href="tel:+4917680257270" style="color:rgba(250,250,247,0.45);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s;" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(250,250,247,0.45)'">📞 +49 176 80257270</a>
+  <span style="color:rgba(255,255,255,0.1);">|</span>
+  <a class="inject-mail" style="color:rgba(250,250,247,0.45);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s;" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(250,250,247,0.45)'">✉️</a>
+  <span style="color:rgba(255,255,255,0.1);">|</span>
+  <span style="color:rgba(201,168,76,0.8);font-weight:700;">Website ab 100 € · Fertig in 48h</span>
+</div>
+
 <!-- NAV -->
-<nav id="navbar">
+<nav id="navbar" style="top:33px;">
   <div class="nav-logo" onclick="showPage('start')">JUMA</div>
   <ul class="nav-links">
     <li><a data-page="start" onclick="showPage('start')">Start</a></li>
@@ -622,19 +652,37 @@ footer{
   <div class="hero-wrap">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
-    <div class="hero-inner">
-      <div class="hero-badge">Webdesign · Restaurants &amp; Cafés</div>
-      <h1 class="hero-h1">Ihr Restaurant.<br><em>Online. Professionell.</em><br>Gefunden.</h1>
-      <p class="hero-p">Viele Restaurants verlieren täglich Gäste, weil sie online nicht gefunden werden – oder weil ihr erster Eindruck nicht überzeugt. JUMA erstellt maßgeschneiderte Websites, die für Ihr Restaurant arbeiten. Kein komplizierter Prozess. Keine versteckten Kosten.</p>
-      <div class="hero-btns">
-        <button class="btn-g" onclick="openModal()">Jetzt kostenlos anfragen</button>
-        <button class="btn-o" onclick="showPage('portfolio')">Referenzen ansehen</button>
+    <div class="hero-inner" style="max-width:1100px;display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;">
+      <div>
+        <div class="hero-badge">Webdesign · Restaurants &amp; Cafés · Düsseldorf</div>
+        <h1 class="hero-h1">Website für Ihr<br>Restaurant –<br><em>ab 100 €.</em></h1>
+        <p class="hero-p">Professionell. Mobiloptimiert. Fertig in 48 Stunden. Kein Abo, keine versteckten Kosten – nur eine starke Website die Gäste bringt.</p>
+        <div class="trust-row" style="margin-bottom:0;">
+          <div class="trust-cell"><div class="trust-n">100€</div><div class="trust-l">Starter Website – kein Abo</div></div>
+          <div class="trust-cell"><div class="trust-n">200€</div><div class="trust-l">Komplett Website bis 5 Seiten</div></div>
+          <div class="trust-cell"><div class="trust-n">48h</div><div class="trust-l">Fertig in 48 Stunden</div></div>
+        </div>
       </div>
-      <div class="trust-row">
-        <div class="trust-cell"><div class="trust-n">77%</div><div class="trust-l">der Gäste suchen online nach Restaurants</div></div>
-        <div class="trust-cell"><div class="trust-n">3×</div><div class="trust-l">mehr Vertrauen mit professioneller Website</div></div>
-        <div class="trust-cell"><div class="trust-n">48h</div><div class="trust-l">bis Ihre Website live ist</div></div>
-        <div class="trust-cell"><div class="trust-n">100€</div><div class="trust-l">ab diesem Preis – keine Folgekosten</div></div>
+      <!-- QUICK FORM -->
+      <div style="background:#141414;border:1px solid rgba(201,168,76,0.2);padding:32px;flex-shrink:0;">
+        <div style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Kostenlos anfragen</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:20px;">Was brauchen Sie?</div>
+        <form onsubmit="submitQuickForm(event)" style="display:flex;flex-direction:column;gap:10px;">
+          <input id="qname" type="text" placeholder="Ihr Name *" required style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--white);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+          <input id="qphone" type="tel" placeholder="Telefon / WhatsApp *" required style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--white);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+          <select id="qservice" required style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.08);color:var(--white);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+            <option value="">Was suchen Sie? *</option>
+            <option>Starter Website (100 €)</option>
+            <option>Komplett Website (200 €)</option>
+            <option>Monatliche Pflege (25 €/Monat)</option>
+            <option>Imagevideo / Fotoservice</option>
+            <option>Social Media Betreuung</option>
+            <option>Ich bin noch unsicher</option>
+          </select>
+          <textarea id="qmsg" rows="3" placeholder="Kurze Beschreibung (optional)" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--white);padding:12px 14px;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;resize:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(201,168,76,0.5)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
+          <button type="submit" style="background:var(--gold);color:var(--black);border:none;padding:14px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;letter-spacing:0.05em;transition:background 0.2s;" onmouseover="this.style.background='#e8c97a'" onmouseout="this.style.background='#c9a84c'">Jetzt kostenlos anfragen →</button>
+          <p style="font-size:0.72rem;color:rgba(250,250,247,0.25);text-align:center;line-height:1.5;">Kostenlos &amp; unverbindlich · Antwort in 24h</p>
+        </form>
       </div>
     </div>
   </div>
